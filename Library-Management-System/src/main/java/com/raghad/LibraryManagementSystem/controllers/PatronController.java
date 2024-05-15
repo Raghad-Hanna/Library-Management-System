@@ -3,6 +3,7 @@ package com.raghad.LibraryManagementSystem.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
+import com.raghad.LibraryManagementSystem.annotations.ThrownCustomExceptionLogging;
 import java.util.List;
 
 import com.raghad.LibraryManagementSystem.services.PatronService;
@@ -23,6 +24,7 @@ public class PatronController {
     }
 
     @GetMapping(path = "/{id}")
+    @ThrownCustomExceptionLogging
     public Patron getPatronById(@PathVariable("id") Integer id) {
         return this.patronService.getPatronById(id);
     }
@@ -34,12 +36,14 @@ public class PatronController {
     }
 
     @PutMapping(path = "/{id}")
+    @ThrownCustomExceptionLogging
     public Patron updatePatron(@Valid @RequestBody Patron patron, @PathVariable("id") Integer id) {
         return this.patronService.updatePatron(patron, id);
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ThrownCustomExceptionLogging
     public void deletePatron(@PathVariable("id") Integer id) {
         this.patronService.deletePatron(id);
     }

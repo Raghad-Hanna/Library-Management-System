@@ -13,5 +13,4 @@ public class BookBorrowingExceptionHandler {
     public ResponseEntity<String> handleBookAndPatronExchangeException(BookBorrowingException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-
 }
