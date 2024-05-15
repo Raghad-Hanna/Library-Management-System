@@ -2,6 +2,7 @@ package com.raghad.LibraryManagementSystem.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import java.util.List;
 
 import com.raghad.LibraryManagementSystem.services.PatronService;
@@ -21,25 +22,25 @@ public class PatronController {
         return this.patronService.getPatrons();
     }
 
-    @GetMapping(path = "/{ID}")
-    public Patron getPatronById(@PathVariable("ID") Integer ID) {
-        return this.patronService.getPatronById(ID);
+    @GetMapping(path = "/{id}")
+    public Patron getPatronById(@PathVariable("id") Integer id) {
+        return this.patronService.getPatronById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Patron createPatron(@RequestBody Patron patron) {
+    public Patron createPatron(@Valid @RequestBody Patron patron) {
         return this.patronService.createPatron(patron);
     }
 
-    @PutMapping(path = "/{ID}")
-    public Patron updatePatron(@RequestBody Patron patron, @PathVariable("ID") Integer ID) {
-        return this.patronService.updatePatron(patron, ID);
+    @PutMapping(path = "/{id}")
+    public Patron updatePatron(@Valid @RequestBody Patron patron, @PathVariable("id") Integer id) {
+        return this.patronService.updatePatron(patron, id);
     }
 
-    @DeleteMapping(path = "/{ID}")
+    @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePatron(@PathVariable("ID") Integer ID) {
-        this.patronService.deletePatron(ID);
+    public void deletePatron(@PathVariable("id") Integer id) {
+        this.patronService.deletePatron(id);
     }
 }

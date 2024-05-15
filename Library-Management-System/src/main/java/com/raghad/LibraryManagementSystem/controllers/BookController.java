@@ -2,6 +2,7 @@ package com.raghad.LibraryManagementSystem.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import java.util.List;
 
 import com.raghad.LibraryManagementSystem.services.BookService;
@@ -21,25 +22,25 @@ public class BookController {
         return this.bookService.getBooks();
     }
 
-    @GetMapping(path = "/{ID}")
-    public Book getBookById(@PathVariable("ID") Integer ID) {
-        return this.bookService.getBookById(ID);
+    @GetMapping(path = "/{id}")
+    public Book getBookById(@PathVariable("id") Integer id) {
+        return this.bookService.getBookById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book createBook(@RequestBody Book book) {
+    public Book createBook(@Valid @RequestBody Book book) {
         return this.bookService.createBook(book);
     }
 
-    @PutMapping(path = "/{ID}")
-    public Book updateBook(@RequestBody Book book, @PathVariable("ID") Integer ID) {
-        return this.bookService.updateBook(book, ID);
+    @PutMapping(path = "/{id}")
+    public Book updateBook(@Valid @RequestBody Book book, @PathVariable("id") Integer id) {
+        return this.bookService.updateBook(book, id);
     }
 
-    @DeleteMapping(path = "/{ID}")
+    @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBook(@PathVariable("ID") Integer ID) {
-        this.bookService.deleteBook(ID);
+    public void deleteBook(@PathVariable("id") Integer id) {
+        this.bookService.deleteBook(id);
     }
 }

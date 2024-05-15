@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @NoArgsConstructor
@@ -13,16 +16,19 @@ import jakarta.persistence.GenerationType;
 public class Patron {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID;
+    private Integer id;
 
+    @NotBlank(message = "The name must be non-blank")
     private String name;
 
+    @Email(message = "The Email address must be valid")
     private String emailAddress;
 
+    @Length(min = 10, max = 10, message = "The mobile number must have 10 digits")
     private String mobileNumber;
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -37,8 +43,8 @@ public class Patron {
         this.mobileNumber = mobileNumber;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {

@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.ISBN;
 
 @Entity
 @NoArgsConstructor
@@ -13,18 +16,22 @@ import jakarta.persistence.GenerationType;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID;
+    private Integer id;
 
+    @NotBlank(message = "The title must be non-blank")
     private String title;
 
+    @NotBlank(message = "The author must be non-blank")
     private String author;
 
-    private int publicationYear;
+    @NotNull(message = "The publication year must exist")
+    private Integer publicationYear;
 
+    @ISBN(message = "The ISBN must be valid")
     private String ISBN;
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
@@ -35,7 +42,7 @@ public class Book {
         this.author = author;
     }
 
-    public void setPublicationYear(int publicationYear) {
+    public void setPublicationYear(Integer publicationYear) {
         this.publicationYear = publicationYear;
     }
 
@@ -43,8 +50,8 @@ public class Book {
         this.ISBN = ISBN;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -55,7 +62,7 @@ public class Book {
         return author;
     }
 
-    public int getPublicationYear() {
+    public Integer getPublicationYear() {
         return publicationYear;
     }
 

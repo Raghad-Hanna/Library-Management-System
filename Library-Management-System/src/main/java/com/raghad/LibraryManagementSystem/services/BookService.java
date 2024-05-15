@@ -2,6 +2,8 @@ package com.raghad.LibraryManagementSystem.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import java.util.List;
 
 import com.raghad.LibraryManagementSystem.repositories.BookRepository;
@@ -20,9 +22,10 @@ public class BookService {
         return this.bookRepository.findAll();
     }
 
-    public Book getBookById(Integer ID) {
-        return this.bookRepository.findById(ID).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an ID of "
-                + ID + ". Provide an existing client to be retrieved"));
+    @Cacheable("Book")
+    public Book getBookById(Integer id) {
+        return this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
+                + id + ". Provide an existing book"));
     }
 
     @Transactional
@@ -31,16 +34,17 @@ public class BookService {
     }
 
     @Transactional
-    public Book updateBook(Book book, Integer ID) {
-        Book existingBook = this.bookRepository.findById(ID).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an ID of "
-                + ID + ". Provide an existing client to be updated"));
-        return this.bookRepository.save(existingBook);
+    @CacheEvict(value = "Book")
+    public Book updateBook(Book book, Integer id) {
+        this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
+                + id + ". Provide an existing book"));
+        return this.bookRepository.save(book);
     }
 
     @Transactional
-    public void deleteBook(Integer ID) {
-        this.bookRepository.findById(ID).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an ID of "
-                + ID + ". Provide an existing client to be deleted"));
-        this.bookRepository.deleteById(ID);
+    public void deleteBook(Integer id) {
+        this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
+                + id + ". Provide an existing book"));
+        this.bookRepository.deleteById(id);
     }
 }
