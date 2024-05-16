@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Aspect
-@Order(2)
+@Order(3)
 @Component
 public class ThrownCustomExceptionLogger {
     private static final Logger logger = LoggerFactory.getLogger(ThrownCustomExceptionLogger.class);

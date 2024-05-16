@@ -8,6 +8,7 @@ import com.raghad.LibraryManagementSystem.repositories.BorrowingRecordRepository
 import com.raghad.LibraryManagementSystem.entities.BorrowingRecord;
 import com.raghad.LibraryManagementSystem.entities.BorrowingRecord.BookStatus;
 import com.raghad.LibraryManagementSystem.exceptions.BookBorrowingException;
+import com.raghad.LibraryManagementSystem.annotations.OperationPerformanceLogging;
 
 @Service
 public class BorrowingRecordService {
@@ -23,6 +24,7 @@ public class BorrowingRecordService {
     }
 
     @Transactional
+    @OperationPerformanceLogging
     public BorrowingRecord borrowBookByPatron(Integer bookId, Integer patronId) {
         var existingBook = this.bookService.getBookById(bookId);
         var existingPatron = this.patronService.getPatronById(patronId);
@@ -43,6 +45,7 @@ public class BorrowingRecordService {
     }
 
     @Transactional
+    @OperationPerformanceLogging
     public BorrowingRecord returnBookByPatron(Integer bookId, Integer patronId) {
         var existingBook = this.bookService.getBookById(bookId);
         var existingPatron = this.patronService.getPatronById(patronId);

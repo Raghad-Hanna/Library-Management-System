@@ -9,6 +9,7 @@ import java.util.List;
 import com.raghad.LibraryManagementSystem.repositories.PatronRepository;
 import com.raghad.LibraryManagementSystem.entities.Patron;
 import com.raghad.LibraryManagementSystem.exceptions.ResourceNotFoundException;
+import com.raghad.LibraryManagementSystem.annotations.OperationPerformanceLogging;
 
 @Service
 public class PatronService {
@@ -29,12 +30,14 @@ public class PatronService {
     }
 
     @Transactional
+    @OperationPerformanceLogging
     public Patron createPatron(Patron patron) {
         return this.patronRepository.save(patron);
     }
 
     @Transactional
     @CacheEvict(value = "Patron")
+    @OperationPerformanceLogging
     public Patron updatePatron(Patron patron, Integer id) {
         this.patronRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent patron with an id of "
                 + id + ". Provide an existing patron"));

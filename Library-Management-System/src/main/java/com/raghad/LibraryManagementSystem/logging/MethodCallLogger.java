@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 @Aspect
-@Order(1)
+@Order(2)
 @Component
 public class MethodCallLogger {
     private static final Logger logger = LoggerFactory.getLogger(MethodCallLogger.class);

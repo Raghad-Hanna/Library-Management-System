@@ -9,6 +9,7 @@ import java.util.List;
 import com.raghad.LibraryManagementSystem.repositories.BookRepository;
 import com.raghad.LibraryManagementSystem.entities.Book;
 import com.raghad.LibraryManagementSystem.exceptions.ResourceNotFoundException;
+import com.raghad.LibraryManagementSystem.annotations.OperationPerformanceLogging;
 
 @Service
 public class BookService {
@@ -29,12 +30,14 @@ public class BookService {
     }
 
     @Transactional
+    @OperationPerformanceLogging
     public Book createBook(Book book) {
         return this.bookRepository.save(book);
     }
 
     @Transactional
     @CacheEvict(value = "Book")
+    @OperationPerformanceLogging
     public Book updateBook(Book book, Integer id) {
         this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
                 + id + ". Provide an existing book"));
