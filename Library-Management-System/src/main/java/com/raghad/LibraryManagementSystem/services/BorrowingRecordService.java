@@ -2,6 +2,7 @@ package com.raghad.LibraryManagementSystem.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import java.time.LocalDate;
 
 import com.raghad.LibraryManagementSystem.repositories.BorrowingRecordRepository;
@@ -23,7 +24,7 @@ public class BorrowingRecordService {
         this.patronService = patronService;
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @OperationPerformanceLogging
     public BorrowingRecord borrowBookByPatron(Integer bookId, Integer patronId) {
         var existingBook = this.bookService.getBookById(bookId);
@@ -44,7 +45,7 @@ public class BorrowingRecordService {
         return this.borrowingRecordRepository.save(createdBorrowingRecord);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @OperationPerformanceLogging
     public BorrowingRecord returnBookByPatron(Integer bookId, Integer patronId) {
         var existingBook = this.bookService.getBookById(bookId);

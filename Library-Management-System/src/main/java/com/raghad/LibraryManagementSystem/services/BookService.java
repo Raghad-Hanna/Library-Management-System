@@ -29,7 +29,6 @@ public class BookService {
                 + id + ". Provide an existing book"));
     }
 
-    @Transactional
     @OperationPerformanceLogging
     public Book createBook(Book book) {
         return this.bookRepository.save(book);

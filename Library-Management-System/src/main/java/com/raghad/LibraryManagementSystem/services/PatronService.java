@@ -1,6 +1,7 @@
 package com.raghad.LibraryManagementSystem.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
@@ -29,7 +30,6 @@ public class PatronService {
                 + id + ". Provide an existing patron"));
     }
 
-    @Transactional
     @OperationPerformanceLogging
     public Patron createPatron(Patron patron) {
         return this.patronRepository.save(patron);
