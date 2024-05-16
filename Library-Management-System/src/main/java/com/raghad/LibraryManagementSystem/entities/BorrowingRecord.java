@@ -76,5 +76,16 @@ public class BorrowingRecord {
     public Patron getPatron() {
         return patron;
     }
+
+    @Override
+    public String toString() {
+        return "BorrowingRecord{" +
+                "id=" + id +
+                ", date=" + date +
+                ", bookStatus=" + bookStatus +
+                ", book=" + book +
+                ", patron=" + patron +
+                '}';
+    }
 }
 

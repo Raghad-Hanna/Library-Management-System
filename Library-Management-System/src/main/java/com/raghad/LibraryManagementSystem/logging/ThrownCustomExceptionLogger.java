@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Aspect
-@Order(1)
+@Order(2)
 @Component
 public class ThrownCustomExceptionLogger {
     private static final Logger logger = LoggerFactory.getLogger(ThrownCustomExceptionLogger.class);
 
-    @AfterThrowing(value = "@annotation(com.raghad.LibraryManagementSystem.annotations.ThrownExceptionLogging)", throwing = "ex")
+    @AfterThrowing(value = "@annotation(com.raghad.LibraryManagementSystem.annotations.ThrownCustomExceptionLogging)", throwing = "ex")
     public void logThrownException(CustomException ex) {
         logger.error(ex.getClass().getName() + " is thrown - " + ex.getMessage());
     }

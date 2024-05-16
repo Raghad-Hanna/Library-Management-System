@@ -69,4 +69,15 @@ public class Book {
     public String getISBN() {
         return ISBN;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", ISBN='" + ISBN + '\'' +
+                '}';
+    }
 }

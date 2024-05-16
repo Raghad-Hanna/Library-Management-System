@@ -58,4 +58,14 @@ public class Patron {
     public String getMobileNumber() {
         return mobileNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Patron{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                '}';
+    }
 }
