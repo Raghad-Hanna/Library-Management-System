@@ -1,13 +1,15 @@
 package com.raghad.LibraryManagementSystem.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
-import com.raghad.LibraryManagementSystem.annotations.ThrownCustomExceptionLogging;
 import java.util.List;
 
 import com.raghad.LibraryManagementSystem.services.BookService;
 import com.raghad.LibraryManagementSystem.entities.Book;
+import com.raghad.LibraryManagementSystem.annotations.ThrownCustomExceptionLogging;
+import com.raghad.LibraryManagementSystem.exceptions.ResourceIdsMismatchException;
 
 @RestController
 @RequestMapping(path = "api/books")
@@ -19,32 +21,40 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getBooks() {
-        return this.bookService.getBooks();
+    public ResponseEntity<List<Book>> getBooks() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.bookService.getBooks());
     }
 
     @GetMapping(path = "/{id}")
     @ThrownCustomExceptionLogging
-    public Book getBookById(@PathVariable("id") Integer id) {
-        return this.bookService.getBookById(id);
+    public ResponseEntity<Book> getBookById(@PathVariable("id") Integer id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.bookService.getBookById(id));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Book createBook(@Valid @RequestBody Book book) {
-        return this.bookService.createBook(book);
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.bookService.createBook(book));
     }
 
     @PutMapping(path = "/{id}")
     @ThrownCustomExceptionLogging
-    public Book updateBook(@Valid @RequestBody Book book, @PathVariable("id") Integer id) {
-        return this.bookService.updateBook(book, id);
+    public ResponseEntity<Book> updateBook(@Valid @RequestBody Book book, @PathVariable("id") Integer id) {
+        if(book.getId() != id)
+            throw new ResourceIdsMismatchException("The book ids"
+                    + " in the URI and in the request payload must match");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.bookService.updateBook(book, id));
     }
 
     @DeleteMapping(path = "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ThrownCustomExceptionLogging
-    public void deleteBook(@PathVariable("id") Integer id) {
+    public ResponseEntity<Book> deleteBook(@PathVariable("id") Integer id) {
         this.bookService.deleteBook(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(null);
     }
 }

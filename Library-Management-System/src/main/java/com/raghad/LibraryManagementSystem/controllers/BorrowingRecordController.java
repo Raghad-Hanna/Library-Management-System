@@ -1,11 +1,13 @@
 package com.raghad.LibraryManagementSystem.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.raghad.LibraryManagementSystem.annotations.ThrownCustomExceptionLogging;
+import io.swagger.v3.oas.annotations.Operation;
 
 import com.raghad.LibraryManagementSystem.services.BorrowingRecordService;
 import com.raghad.LibraryManagementSystem.entities.BorrowingRecord;
+import com.raghad.LibraryManagementSystem.annotations.ThrownCustomExceptionLogging;
 
 @RestController
 @RequestMapping(path = "api")
@@ -17,15 +19,20 @@ public class BorrowingRecordController {
     }
 
     @PostMapping(path = "/borrow/{bookId}/patron/{patronId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Borrow a book with an id by a patron with an id")
     @ThrownCustomExceptionLogging
-    public BorrowingRecord borrowBookByPatron(@PathVariable("bookId") Integer bookId, @PathVariable("patronId") Integer patronId) {
-        return this.borrowingRecordService.borrowBookByPatron(bookId, patronId);
+    public ResponseEntity<BorrowingRecord> borrowBookByPatron(@PathVariable("bookId") Integer bookId,
+                                                              @PathVariable("patronId") Integer patronId) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.borrowingRecordService.borrowBookByPatron(bookId, patronId));
     }
 
     @PutMapping(path = "/return/{bookId}/patron/{patronId}")
+    @Operation(summary = "return a book with an id by a patron with an id")
     @ThrownCustomExceptionLogging
-    public BorrowingRecord returnBookByPatron(@PathVariable("bookId") Integer bookId, @PathVariable("patronId") Integer patronId) {
-        return this.borrowingRecordService.returnBookByPatron(bookId, patronId);
+    public ResponseEntity<BorrowingRecord> returnBookByPatron(@PathVariable("bookId") Integer bookId,
+                                                              @PathVariable("patronId") Integer patronId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.borrowingRecordService.returnBookByPatron(bookId, patronId));
     }
 }

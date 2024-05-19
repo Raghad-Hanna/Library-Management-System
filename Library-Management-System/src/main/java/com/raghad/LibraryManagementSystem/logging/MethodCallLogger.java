@@ -18,18 +18,18 @@ public class MethodCallLogger {
     @Around("execution(* com.raghad.LibraryManagementSystem.services.*.*(..))" +
             "|| execution(* com.raghad.LibraryManagementSystem.repositories.*.*(..))")
     public Object logMethodCall(ProceedingJoinPoint joinPoint) throws Throwable {
-        String targetClassFullyQualifiedName = joinPoint.getTarget().getClass().getName();
-        String methodIdentifier = joinPoint.getSignature().getName();
+        var targetClassFullyQualifiedName = joinPoint.getTarget().getClass().getName();
+        var methodIdentifier = joinPoint.getSignature().getName();
         Object[] methodArguments = joinPoint.getArgs();
 
         Object methodReturnValue;
         String logMessage = "\n" + targetClassFullyQualifiedName + "." + methodIdentifier + "()"
-                +"\ncalled with arguments: " + Arrays.stream(methodArguments).toList();
+                + "\ncalled with arguments: " + Arrays.stream(methodArguments).toList();
 
         try {
             methodReturnValue = joinPoint.proceed();
-            logger.info(logMessage +
-                    "\nreturned: " + ((methodReturnValue != null) ? methodReturnValue: "void"));
+            logger.info(logMessage
+                    + "\nreturned: " + ((methodReturnValue != null) ? methodReturnValue: "void"));
         }
         catch(Throwable th) {
             logger.info(logMessage);

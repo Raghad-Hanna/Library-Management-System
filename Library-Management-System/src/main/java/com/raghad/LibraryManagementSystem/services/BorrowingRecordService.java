@@ -31,17 +31,19 @@ public class BorrowingRecordService {
         var existingPatron = this.patronService.getPatronById(patronId);
         var borrowingRecords = this.borrowingRecordRepository.findByBookId(bookId);
 
-        var borrowingRecord = borrowingRecords.stream()
+        var borrowingRecord = borrowingRecords
+                .stream()
                 .skip(borrowingRecords.size() > 0 ? (borrowingRecords.size()-1) : 0)
                 .findFirst();
 
-        if(borrowingRecord.isPresent() &&
-                borrowingRecord.get().getBookStatus() == BookStatus.BORROWED)
-            throw new BookBorrowingException("The book with an id of " + bookId + " is already borrowed"
-                    + " by a patron with an id of " + borrowingRecord.get().getPatron().getId());
+        if(borrowingRecord.isPresent() && borrowingRecord.get().getBookStatus() == BookStatus.BORROWED)
+            throw new BookBorrowingException("The book with an id of " + bookId
+                    + " is already borrowed by a patron with an id of "
+                    + borrowingRecord.get().getPatron().getId());
 
-        var createdBorrowingRecord = new BorrowingRecord(LocalDate.now(), BookStatus.BORROWED, existingBook,
-                existingPatron);
+        var createdBorrowingRecord =
+                new BorrowingRecord(LocalDate.now(), BookStatus.BORROWED, existingBook, existingPatron);
+
         return this.borrowingRecordRepository.save(createdBorrowingRecord);
     }
 
@@ -52,12 +54,12 @@ public class BorrowingRecordService {
         var existingPatron = this.patronService.getPatronById(patronId);
         var borrowingRecords = this.borrowingRecordRepository.findByBookId(bookId);
 
-        var borrowingRecord = borrowingRecords.stream()
+        var borrowingRecord = borrowingRecords
+                .stream()
                 .skip(borrowingRecords.size() > 0 ? (borrowingRecords.size()-1) : 0)
                 .findFirst();
 
-        if(borrowingRecord.isEmpty() ||
-                borrowingRecord.get().getBookStatus() == BookStatus.RETURNED) {
+        if(borrowingRecord.isEmpty() || borrowingRecord.get().getBookStatus() == BookStatus.RETURNED) {
             throw new BookBorrowingException("The book with an id of " + bookId + " is not borrowed");
         }
 
@@ -68,6 +70,7 @@ public class BorrowingRecordService {
 
         var updatedBorrowingRecord = new BorrowingRecord(LocalDate.now(),
                 BookStatus.RETURNED, existingBook, existingPatron);
+
         return this.borrowingRecordRepository.save(updatedBorrowingRecord);
     }
 }

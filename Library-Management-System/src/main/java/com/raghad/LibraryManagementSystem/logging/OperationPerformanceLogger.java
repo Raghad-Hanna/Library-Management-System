@@ -21,7 +21,8 @@ public class OperationPerformanceLogger {
         long endTime = System.currentTimeMillis();
 
         long duration = endTime - startTime;
-        logger.info("The method " + joinPoint.getSignature().getName() + " took " + duration + " milliseconds to execute");
+        logger.info("The method " + joinPoint.getSignature().getName()
+                + " took " + duration + " milliseconds to execute");
 
         return returnValue;
     }

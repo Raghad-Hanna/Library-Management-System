@@ -25,8 +25,9 @@ public class BookService {
 
     @Cacheable("Book")
     public Book getBookById(Integer id) {
-        return this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
-                + id + ". Provide an existing book"));
+        return this.bookRepository
+                .findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book"
+                        + " with an id of " + id + ". Provide an existing book"));
     }
 
     @OperationPerformanceLogging
@@ -38,15 +39,19 @@ public class BookService {
     @CacheEvict(value = "Book")
     @OperationPerformanceLogging
     public Book updateBook(Book book, Integer id) {
-        this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
-                + id + ". Provide an existing book"));
+        this.bookRepository
+                .findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book"
+                        + " with an id of " + id + ". Provide an existing book"));
+
         return this.bookRepository.save(book);
     }
 
     @Transactional
     public void deleteBook(Integer id) {
-        this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book with an id of "
-                + id + ". Provide an existing book"));
+        this.bookRepository
+                .findById(id).orElseThrow(() -> new ResourceNotFoundException("Non-existent book"
+                        + " with an id of " + id + ". Provide an existing book"));
+
         this.bookRepository.deleteById(id);
     }
 }

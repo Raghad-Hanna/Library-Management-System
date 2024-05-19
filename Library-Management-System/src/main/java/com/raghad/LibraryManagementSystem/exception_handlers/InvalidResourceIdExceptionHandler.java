@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import com.raghad.LibraryManagementSystem.exceptions.BookBorrowingException;
+import com.raghad.LibraryManagementSystem.exceptions.ResourceIdsMismatchException;
+import com.raghad.LibraryManagementSystem.exceptions.CustomException;
 
 @RestControllerAdvice
-public class BookBorrowingExceptionHandler {
-    @ExceptionHandler(BookBorrowingException.class)
-    public ResponseEntity<String> handleBookAndPatronExchangeException(BookBorrowingException ex) {
+public class InvalidResourceIdExceptionHandler {
+    @ExceptionHandler({ BookBorrowingException.class, ResourceIdsMismatchException.class })
+    public ResponseEntity<String> handleBookAndPatronExchangeException(CustomException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
